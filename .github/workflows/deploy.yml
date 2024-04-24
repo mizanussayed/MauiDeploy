@@ -4,11 +4,6 @@ on:
   push:
     branches:
       - main
-
-permissions:
-  contents: write
-
-    
 jobs:
   build:
     runs-on: windows-letest
@@ -33,13 +28,3 @@ jobs:
     - name: Build
       run: dotnet build -c Release -f:net8.0-windows10.0.19041.0
       working-directory: ./MauiDeploy
-
-    - name: Publish
-      run: dotnet publish -c Release -f:net8.0-windows10.0.19041.0 /p:GenerateAppxPackageOnBuild=true
-      working-directory: ./MauiDeploy
-
-    - name: Upload
-      uses: actions/upload-artifact@v4
-      with: 
-        name: Build
-        path: ./MauiDeploy/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/**/*.msix
