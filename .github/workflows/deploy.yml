@@ -32,7 +32,7 @@ jobs:
       working-directory: ./src
       
     - name: Build
-      run: dotnet build --no-restore -c Release -f:net8.0-windows10.0.19041.0
+      run: dotnet build -c Release -f:net8.0-windows10.0.19041.0
       working-directory: ./src
 
     - name: Decode Signing Certificate
