@@ -25,7 +25,10 @@ jobs:
         node-version: 21.x
 
     - name: Install NPM Packages
-      run: npm ci
+      run : |
+       npn i npm@5
+       npm ci
+       
       working-directory: ./
 
     - name: Bump Version
