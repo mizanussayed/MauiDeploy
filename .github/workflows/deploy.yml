@@ -24,8 +24,8 @@ jobs:
       uses: actions/setput-dotnet@v3
       with:
         dotnet-version: 8.0.x
-    - name: Install MAUI Workload
-      run: dotnet workload install maui
+  #  - name: Install MAUI Workload
+  #    run: dotnet workload install maui
 
     - name: Restore Dependency
       run: dotnet restore
