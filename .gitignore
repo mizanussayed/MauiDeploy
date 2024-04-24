@@ -1,0 +1,5 @@
+src/bin
+src/obj
+node_modules
+.vs
+.vscode

@@ -29,11 +29,11 @@ jobs:
 
     - name: Restore Dependency
       run: dotnet restore
-      working-directory: ./
+      working-directory: ./src
       
     - name: Build
       run: dotnet build -c Release -f:net8.0-windows10.0.19041.0
-      working-directory: ./
+      working-directory: ./src
 
     - name: Decode Signing Certificate
       run: |
@@ -45,7 +45,7 @@ jobs:
 
     - name: Publish
       run: dotnet publish -c Release -f:net8.0-windows10.0.19041.0 /p:GenerateAppxPackageOnBuild=true /p:AppxPackageSigningEnabled=true /p:PackageCertificateThumbprint=${{ secrets.SIGNING_CERTIFICATE_THUMBPRINT }}
-      working-directory: ./   
+      working-directory: ./src   
 
     - name: Extract Version
       id: extractVersion
@@ -69,17 +69,17 @@ jobs:
 
     - name: Rename Auto-Update Installer
       shell: pwsh
-      run: Rename-Item ./bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/MauiDeploy_${{ steps.extractVersion.outputs.version }}.0_Test/MauiDeploy_${{ steps.extractVersion.outputs.version }}.0_x64.msix AutoUpdate.msix
+      run: Rename-Item ./src/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/MauiDeploy_${{ steps.extractVersion.outputs.version }}.0_Test/MauiDeploy_${{ steps.extractVersion.outputs.version }}.0_x64.msix AutoUpdate.msix
 
     - name: Rename Certificate
       shell: pwsh
-      run: Rename-Item ./bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/MauiDeploy_${{ steps.extractVersion.outputs.version }}.0_Test/MauiDeploy_${{ steps.extractVersion.outputs.version }}.0_x64.cer MauiDeploy.cer
+      run: Rename-Item ./src/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/MauiDeploy_${{ steps.extractVersion.outputs.version }}.0_Test/MauiDeploy_${{ steps.extractVersion.outputs.version }}.0_x64.cer MauiDeploy.cer
 
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
         tag_name: v${{ steps.extractVersion.outputs.version }}
         files: | 
-          ./MauiDeploy.appinstaller
-          ./bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/MauiDeploy_${{ steps.extractVersion.outputs.version }}.0_Test/AutoUpdate.msix
-          ./bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/MauiDeploy_${{ steps.extractVersion.outputs.version }}.0_Test/MauiDeploy.cer
+          ./src/MauiDeploy.appinstaller
+          ./src/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/MauiDeploy_${{ steps.extractVersion.outputs.version }}.0_Test/AutoUpdate.msix
+          ./src/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/MauiDeploy_${{ steps.extractVersion.outputs.version }}.0_Test/MauiDeploy.cer

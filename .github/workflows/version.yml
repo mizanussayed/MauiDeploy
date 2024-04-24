@@ -25,9 +25,8 @@ jobs:
         node-version: 21.x
 
     - name: Install NPM Packages
-      run : |
-       npm i npm@5
-       npm ci
+      #run :  npm i npm@5
+       run : npm ci
        
       working-directory: ./
 
@@ -41,21 +40,21 @@ jobs:
         $package = Get-Content -Raw ./package.json | ConvertFrom-Json
         $version = $package.version
 
-        $xml = [Xml] (Get-Content ./MauiDeploy.csproj)
+        $xml = [Xml] (Get-Content ./src/MauiDeploy.csproj)
         $xml.Project.PropertyGroup.ApplicationDisplayVersion = $version
-        $xml.Save("./MauiDeploy.csproj")
+        $xml.Save("./src/MauiDeploy.csproj")
 
-        $appinstallerXml = [Xml] (Get-Content ./MauiDeploy.appinstaller)
+        $appinstallerXml = [Xml] (Get-Content ./src/MauiDeploy.appinstaller)
         $appinstallerNewVersion = "{0}.0" -f $version
         $appinstallerXml.AppInstaller.MainPackage.Version = $appinstallerNewVersion
-        $appinstallerXml.Save("./MauiDeploy.appinstaller")
+        $appinstallerXml.Save("./src/MauiDeploy.appinstaller")
 
     - name: Commit Version Bump
       run: |
         git config user.name "GitHub Actions Bot"
         git config user.email "<>"
-        git add ./MauiDeploy.csproj
-        git add ./MauiDeploy.appinstaller
+        git add ./src/MauiDeploy.csproj
+        git add ./src/MauiDeploy.appinstaller
         git add ./CHANGELOG.md
         git add ./.changeset
         git add ./package.json
