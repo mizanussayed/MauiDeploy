@@ -15,13 +15,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+    - name: Checkout
+      uses: actions/checkout@v3
       with:
         dotnet-version: 8.0.x
-    - name: Restore dependencies
+
+    - name: Setup .NET
+      uses: actions/setput-dotnet@v3
+      with:
+        dotnet-version: 8.0.x
+    - name: Install MAUI Workload
+      run: dotnet workload install maui
+
+    - name: Restore Dependency
       run: dotnet restore
+      working-directory: ./MauiDeploy
+      
     - name: Build
       run: dotnet build --no-restore
     - name: Test
