@@ -29,13 +29,13 @@ jobs:
 
     - name: Restore Dependency
       run: dotnet restore
-      working-directory: ./MauiDeploy
+      working-directory: ./
       
     - name: Build
       run: dotnet build -c Release -f:net8.0-windows10.0.19041.0
-      working-directory: ./MauiDeploy
+      working-directory: ./
 
     - name: Publish
       run: dotnet publish -c Release -f:net8.0-windows10.0.19041.0 /p:GenerateAppxPackageOnBuild=true
-      working-directory: ./MauiDeploy
+      working-directory: ./
 
