@@ -4,9 +4,14 @@ on:
   push:
     branches:
       - main
+
+permissions:
+  contents: write
+
+    
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-letest
 
     steps:
     - name: Checkout
@@ -23,8 +28,4 @@ jobs:
 
     - name: Restore
       run: dotnet restore
-      working-directory: ./MauiDeploy
-
-    - name: Build
-      run: dotnet build -c Release -f:net8.0-windows10.0.19041.0
       working-directory: ./MauiDeploy
