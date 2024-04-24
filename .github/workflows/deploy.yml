@@ -35,13 +35,22 @@ jobs:
       run: dotnet build -c Release -f:net8.0-windows10.0.19041.0
       working-directory: ./
 
+    - name: Decode Signing Certificate
+      run: |
+        echo "${{ secrets.SIGNING_CERTIFICATE_BASE_64_CONTENT }}" > cert.asc
+        certutil -decode cert.asc cert.pfx
+
+    - name: Install Signing Certficiate
+      run: certutil -user -p ${{ secrets.SIGNING_CERTIFICATE_PASSWORD }} -Silent -importpfx cert.pfx NoRoot
+
     - name: Publish
-      run: dotnet publish -c Release -f:net8.0-windows10.0.19041.0 /p:GenerateAppxPackageOnBuild=true
+      run: dotnet publish -c Release -f:net8.0-windows10.0.19041.0 /p:GenerateAppxPackageOnBuild=true /p:AppxPackageSigningEnabled=true /p:PackageCertificateThumbprint=${{ secrets.SIGNING_CERTIFICATE_THUMBPRINT }}
       working-directory: ./
 
     - name: Upload
       uses: actions/upload-artifact@v4
       with: 
         name: Build
-        path: ./bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/**/*.msix
-
+        path: |
+         ./bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/**/*.msix
+         ./bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/**/*.cer
