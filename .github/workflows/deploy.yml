@@ -21,9 +21,10 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Setup .NET
-      uses: actions/setput-dotnet@v3
-      with:
-        dotnet-version: 8.0.x
+      run : echo setup before
+   #   uses: actions/setput-dotnet@v3
+   #   with:
+  #      dotnet-version: 8.0.x
   #  - name: Install MAUI Workload
   #    run: dotnet workload install maui
 
