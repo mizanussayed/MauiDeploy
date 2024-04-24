@@ -21,19 +21,22 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Setup .NET
-      uses: actions/setput-dotnet@v3
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8.0.x
         
-  #  - name: Install MAUI Workload
-  #    run: dotnet workload install maui
+    - name: Install MAUI Workload
+      run: dotnet workload install maui
 
     - name: Restore Dependency
       run: dotnet restore
       working-directory: ./MauiDeploy
       
     - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet build -c Release -f:net8.0-windows10.0.19041.0
+      working-directory: ./MauiDeploy
+
+    - name: Publish
+      run: dotnet publish -c Release -f:net8.0-windows10.0.19041.0 /p:GenerateAppxPackageOnBuild=true
+      working-directory: ./MauiDeploy
 
