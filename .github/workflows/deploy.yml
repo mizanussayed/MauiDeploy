@@ -32,7 +32,7 @@ jobs:
       working-directory: ./src
       
     - name: Build
-      run: dotnet build -c Release -f:net8.0-windows10.0.19041.0
+      run: dotnet build --no-restore -c Release -f:net8.0-windows10.0.19041.0
       working-directory: ./src
 
     - name: Decode Signing Certificate
@@ -51,7 +51,7 @@ jobs:
       id: extractVersion
       shell: pwsh
       run: |
-        $xml = [Xml] (Get-Content ./MauiDeploy.csproj)
+        $xml = [Xml] (Get-Content ./src/MauiDeploy.csproj)
         [string] $version = [Version] $xml.Project.PropertyGroup.ApplicationDisplayVersion
         echo "version=$($version)" >> $env:GITHUB_OUTPUT
 
