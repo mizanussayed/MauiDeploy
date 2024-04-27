@@ -25,7 +25,7 @@ jobs:
         node-version: 21.x
 
     - name: Install NPM Packages
-      #run :  npm i npm@5
+       run :  npm i npm@5
        run : npm ci
        
       working-directory: ./
