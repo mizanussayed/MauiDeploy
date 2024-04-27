@@ -25,13 +25,11 @@ jobs:
         node-version: 21.x
 
     - name: Install NPM Packages
-       run :  npm i npm@5
-       run : npm ci
-       
+      run: npm ci
       working-directory: ./
 
     - name: Bump Version
-      run: npm run version
+      run: npm version patch
       working-directory: ./
 
     - name: Sync Changesets Version
